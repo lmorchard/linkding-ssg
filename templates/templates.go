@@ -1,6 +1,7 @@
 package templates
 
 import (
+	"bytes"
 	"crypto/sha256"
 	"embed"
 	"encoding/hex"
@@ -14,7 +15,29 @@ import (
 	"time"
 
 	"github.com/lmorchard/linkding-ssg/pkg/linkding"
+	"github.com/yuin/goldmark"
+	"github.com/yuin/goldmark/extension"
+	"github.com/yuin/goldmark/renderer/html"
 )
+
+var notesMarkdownParser = goldmark.New(
+	goldmark.WithExtensions(extension.GFM),
+	goldmark.WithRendererOptions(
+		html.WithUnsafe(),
+	),
+)
+
+func renderNotesMarkdown(content string) template.HTML {
+	trimmed := strings.TrimSpace(content)
+	if trimmed == "" {
+		return ""
+	}
+	var buf bytes.Buffer
+	if err := notesMarkdownParser.Convert([]byte(trimmed), &buf); err != nil {
+		return template.HTML(template.HTMLEscapeString(content))
+	}
+	return template.HTML(buf.String())
+}
 
 //go:embed static/* html/*
 var EmbeddedFS embed.FS
@@ -99,6 +122,7 @@ func funcMap(baseURL string, siteTitle string) template.FuncMap {
 		"titleOrURL": func(b linkding.Bookmark) string {
 			return b.DisplayTitle()
 		},
+		"renderMarkdown": renderNotesMarkdown,
 	}
 }
 

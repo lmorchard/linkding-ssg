@@ -21,11 +21,27 @@ PRE_EXISTING=new-val
 		t.Fatal(err)
 	}
 
+	// Clean environment variables that could leak from runner
+	origURL, hasURL := os.LookupEnv("LINKDING_URL")
+	origToken, hasToken := os.LookupEnv("LINKDING_TOKEN")
+	os.Unsetenv("LINKDING_URL")
+	os.Unsetenv("LINKDING_TOKEN")
+	defer func() {
+		if hasURL {
+			os.Setenv("LINKDING_URL", origURL)
+		} else {
+			os.Unsetenv("LINKDING_URL")
+		}
+		if hasToken {
+			os.Setenv("LINKDING_TOKEN", origToken)
+		} else {
+			os.Unsetenv("LINKDING_TOKEN")
+		}
+	}()
+
 	// Set pre-existing to test precedence
 	os.Setenv("PRE_EXISTING", "original-val")
 	defer os.Unsetenv("PRE_EXISTING")
-	defer os.Unsetenv("LINKDING_URL")
-	defer os.Unsetenv("LINKDING_TOKEN")
 	defer os.Unsetenv("OTHER_VAL")
 
 	if err := LoadEnv(envPath); err != nil {

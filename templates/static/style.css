@@ -184,12 +184,71 @@ nav.site-nav a.active {
 }
 
 .bookmark-notes {
+  position: relative;
   background: var(--code-bg);
-  padding: 0.6rem 0.8rem;
-  border-radius: 6px;
-  font-size: 0.88rem;
-  margin: 0.6rem 0;
-  border-left: 3px solid var(--link-color);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 0.65rem 0.9rem;
+  margin: 0.85rem 0 0.6rem 0;
+  font-size: 0.9rem;
+  font-style: italic;
+  color: var(--text-color);
+  line-height: 1.5;
+}
+
+.bookmark-notes::before {
+  content: "";
+  position: absolute;
+  top: -6px;
+  left: 1.5rem;
+  width: 10px;
+  height: 10px;
+  background: var(--code-bg);
+  border-top: 1px solid var(--border-color);
+  border-left: 1px solid var(--border-color);
+  transform: rotate(45deg);
+}
+
+.bookmark-notes p {
+  margin: 0;
+}
+
+.bookmark-notes p + p {
+  margin-top: 0.5rem;
+}
+
+.bookmark-notes ul,
+.bookmark-notes ol {
+  margin: 0.4rem 0;
+  padding-left: 1.4rem;
+}
+
+.bookmark-notes li {
+  margin: 0.2rem 0;
+}
+
+.bookmark-notes code {
+  font-style: normal;
+  font-family: var(--font-mono);
+  font-size: 0.82em;
+  background: rgba(0, 0, 0, 0.05);
+  padding: 0.1em 0.3em;
+  border-radius: 3px;
+}
+
+.bookmark-notes a {
+  color: var(--link-color);
+  text-decoration: underline;
+}
+
+.bookmark-notes a:hover {
+  color: var(--link-hover);
+}
+
+@media (prefers-color-scheme: dark) {
+  .bookmark-notes code {
+    background: rgba(255, 255, 255, 0.1);
+  }
 }
 
 .bookmark-meta {

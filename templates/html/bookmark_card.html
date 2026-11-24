@@ -18,7 +18,7 @@
   {{end}}
 
   {{if .Notes}}
-  <div class="bookmark-notes">{{.Notes}}</div>
+  <div class="bookmark-notes">{{renderMarkdown .Notes}}</div>
   {{end}}
 
   <div class="bookmark-meta">
