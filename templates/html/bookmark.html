@@ -34,9 +34,8 @@
   {{end}}
 
   {{if .Bookmark.Notes}}
-  <div class="bookmark-notes" style="margin-top:1.25rem;">
-    <strong>Notes:</strong>
-    <p style="margin: 0.5rem 0 0 0;">{{.Bookmark.Notes}}</p>
+  <div class="bookmark-notes">
+    {{renderMarkdown .Bookmark.Notes}}
   </div>
   {{end}}
 
